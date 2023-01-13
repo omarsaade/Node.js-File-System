@@ -1,0 +1,15 @@
+A file is a sequence of bits
+we have three different ways to do the same exact thing in nodejs
+we could use 
+      
+      Promises API
+      Callback API
+      Synchronous API
+
+  we have three different ways to do the same exact thing in nodejs using
+  the file system actually "fs"
+
+Fa nehna fina na3mul for example create file using one of them
+so we have these three ways of doing the same thing
+
+
