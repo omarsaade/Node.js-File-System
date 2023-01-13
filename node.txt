@@ -2,8 +2,8 @@ A file is a sequence of bits
 we have three different ways to do the same exact thing in nodejs
 we could use 
       
-      Promises API
-      Callback API
+      Promises API   (Async)
+      Callback API   (Async)
       Synchronous API
 
   we have three different ways to do the same exact thing in nodejs using
