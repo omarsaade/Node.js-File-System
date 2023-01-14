@@ -1,1 +1,1 @@
-create a file asdf.txt
+add to the file /Users/10User/Desktop/test/m.js this content: this is some text

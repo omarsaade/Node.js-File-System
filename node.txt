@@ -1,3 +1,6 @@
+pwd command   (print working directory)
+
+
 A file is a sequence of bits
 we have three different ways to do the same exact thing in nodejs
 we could use 
@@ -249,3 +252,7 @@ const fs = require("fs/promises");
 
 
 ===================================================================================
+// create a file /Users/10User/Desktop/test/m.js
+// delete the file /Users/10User/Desktop/test/m.js
+// rename the file /Users/10User/Desktop/test/m.js to /Users/10User/Desktop/test/dm.js
+// 
