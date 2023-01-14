@@ -12,4 +12,240 @@ we could use
 Fa nehna fina na3mul for example create file using one of them
 so we have these three ways of doing the same thing
 
+const fs = require("fs/promises");
 
+// ******* Promise API ********* //
+
+(async () => {
+  try {
+    await fs.copyFile("text.txt", "copied-promise.txt");
+  } catch (error) {
+    console.log(error);
+  }
+})();
+
+// ******* Callback API ********* //
+
+const fs = require("fs");
+
+fs.copyFile("text.txt", "copied-promise.txt", (error) => {
+  if (error) {
+    console.log(error);
+  }
+});
+
+// ******* Synchronous API ********* //
+
+const fs = require("fs");
+fs.copyFileSync("text.txt", "copied-promise.txt");
+
+===================================
+
+
+const fs = require("fs/promises");
+// const content = fs.readFileSync("./text.txt");
+// console.log(content.toString("utf-8"));
+
+====================================================
+
+
+
+// import { watch } from "node:fs";
+// // Example when handled through fs.watch() listener
+// watch("./tmp", { encoding: "buffer" }, (eventType, filename) => {
+//   if (filename) {
+//     console.log(filename);
+//     // Prints: <Buffer ...>
+//   }
+// });
+
+const fs = require("fs/promises");
+
+(async () => {
+  //                    watch the whole directory ("./")
+  const watcher = fs.watch("./command.txt");
+
+  for await (const event of watcher) {
+    // if (event.eventType === "change" && event.filename === "command.txt") {
+    if (event.eventType === "change") {
+      // the file was changed...
+      console.log("The file was changed.");
+    }
+  }
+})();
+
+
+==========================================
+
+
+/*
+open (32 33 d3) these numbers are called a file descriptor
+each opened file has a unique file descriptor
+its like an id..so each file when we open has a unique file descriptor
+read or write
+*/
+
+A <FileHandle> object is an object wrapper for a numeric file descriptor.
+
+
+
+
+========================================
+
+
+
+
+const fs = require("fs/promises");
+
+/*
+open (32 33 d3) these numbers are called a file descriptor
+read or write
+*/
+
+(async () => {
+  //  we u open you are not reading file u are just saving a number
+  //  to your memory so later u could read or write or...
+  // its really important to close ur file after you opened
+  const commandFileHandler = await fs.open("./command.txt", "r");
+  const watcher = fs.watch("./command.txt");
+
+  for await (const event of watcher) {
+    if (event.eventType === "change") {
+      console.log("The file was changed.");
+    }
+  }
+})();
+
+
+
+
+===============================================================================
+
+
+
+const fs = require("fs/promises");
+
+/*
+open (32 33 d3) these numbers are called a file descriptor
+read or write
+*/
+
+(async () => {
+  //  we u open you are not reading file u are just saving a number
+  //  to your memory so later u could read or write or...
+  // its really important to close ur file after you opened cz of memory
+  const commandFileHandler = await fs.open("./command.txt", "r");
+  const watcher = fs.watch("./command.txt");
+
+  for await (const event of watcher) {
+    if (event.eventType === "change") {
+      console.log("The file was changed.");
+      // we want to read the content
+      //get the size of our file
+      const size = (await commandFileHandler.stat()).size;
+      const buff = Buffer.alloc(size);
+      //   console.log(buff.byteLength);
+      const offset = 0;
+      const length = buff.byteLength;
+      // const length = size;
+      //should always be 0
+      const position = 0;
+      //   console.log(size);
+      const content = await commandFileHandler.read(
+        buff,
+        offset,
+        length,
+        position
+      );
+      console.log(content);//{ bytesRead: 10, buffer: <Buffer 6f 6d 61 72 20 73 61 61 64 65> }
+    }
+  }
+})();
+
+
+
+
+===================================================================
+
+
+
+const fs = require("fs/promises");
+
+(async () => {
+  const commandFileHandler = await fs.open("./command.txt", "r");
+
+  commandFileHandler.on("change", async () => {
+    //get the size of our file
+    const size = (await commandFileHandler.stat()).size;
+    // allocate our buffer with the size of the file
+    const buff = Buffer.alloc(size);
+    // the location at which we want to start filling our buffer
+    const offset = 0;
+    //how many bytes we want to read
+    const length = buff.byteLength;
+    //the position that we want to start reading the file from
+    const position = 0;
+    // we always want to read the whole content (from beginning all the way to the end )
+    const content = await commandFileHandler.read(
+      buff,
+      offset,
+      length,
+      position
+    );
+    //         turn
+    //decoder 01 => something meaningful
+    //encoder meaningful => 01
+
+    console.log(content); // { bytesRead: 10, buffer: <Buffer 6f 6d 61 72 20 73 61 61 64 65> }
+    //   console.log(content.buffer.toString()); // { bytesRead: 10, buffer: <Buffer 6f 6d 61 72 20 73 61 61 64 65> }
+  });
+
+  // watcher...
+  const watcher = fs.watch("./command.txt");
+  for await (const event of watcher) {
+    if (event.eventType === "change") {
+      commandFileHandler.emit("change");
+    }
+  }
+})();
+
+
+=====================================================================================
+
+const fs = require("fs/promises");
+
+(async () => {
+  const commandFileHandler = await fs.open("./command.txt", "r");
+
+  commandFileHandler.on("change", async () => {
+    //get the size of our file
+    const size = (await commandFileHandler.stat()).size;
+    // allocate our buffer with the size of the file
+    const buff = Buffer.alloc(size);
+    // the location at which we want to start filling our buffer
+    const offset = 0;
+    //how many bytes we want to read
+    const length = buff.byteLength;
+    //the position that we want to start reading the file from
+    const position = 0;
+    // we always want to read the whole content (from beginning all the way to the end )
+    await commandFileHandler.read(buff, offset, length, position);
+    //         turn
+    //decoder 01 => something meaningful
+    //encoder meaningful => 01
+    // utf-8 hye el default fine shila..
+    console.log(buff.toString("utf-8")); // { bytesRead: 10, buffer: <Buffer 6f 6d 61 72 20 73 61 61 64 65> }
+    //   console.log(content.buffer.toString()); // { bytesRead: 10, buffer: <Buffer 6f 6d 61 72 20 73 61 61 64 65> }
+  });
+
+  // watcher...
+  const watcher = fs.watch("./command.txt");
+  for await (const event of watcher) {
+    if (event.eventType === "change") {
+      commandFileHandler.emit("change");
+    }
+  }
+})();
+
+
+===================================================================================
