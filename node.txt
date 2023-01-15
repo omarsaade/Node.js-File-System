@@ -1,5 +1,11 @@
 pwd command   (print working directory)
-unlink command  (delete file)
+unlink command   (delete file)
+rm a.txt zoom.txt (delete multiple file or dir at the same time)
+rm -rf dir    (delete directory recursively force)
+dont use -rf / ..it will delete ur operating system..
+its very dangerous
+
+
 
 A file is a sequence of bits
 we have three different ways to do the same exact thing in nodejs
@@ -254,7 +260,8 @@ const fs = require("fs/promises");
 ===================================================================================
 //create a file /Users/10User/Desktop/test/m.js
 //delete the file /Users/10User/Desktop/test/ram.txt
-rename the file /Users/10User/Desktop/test/m.js to /Users/10User/Desktop/test/dm.js
+//rename the file /Users/10User/Desktop/test/m.js to /Users/10User/Desktop/test/dm.js
+//rename the file m.js to box/dm.js
 // add to the file /Users/10User/Desktop/test/m.js this content: this is some text
 
 
@@ -366,7 +373,7 @@ open(path,"w")      create the file
 
 ============================================================================
 create file   open w
-add to file  appendFile
+add to file  appendFile  or open flag a
 rename file rename
 delete file  unlink
 
