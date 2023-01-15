@@ -55,11 +55,16 @@ const fs = require("fs/promises");
     }
   };
 
+  let addedContent;
+
   const addToFile = async (path, content) => {
+    // prevent the double save of the same line
+    if (addedContent === content) return;
     try {
       // we can also use append
       const fileHandle = await fs.open(path, "a");
       fileHandle.write(content);
+      addedContent = content;
     } catch (error) {
       console.log(error);
     }
