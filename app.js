@@ -24,16 +24,25 @@ const fs = require("fs/promises");
   };
 
   const deleteFile = async (path) => {
-    console.log(`Deleting ${path}`);
+    try {
+      await fs.unlink(path);
+    } catch (e) {
+      if (e.code === "ENOENT") {
+        console.log("No file at this path to remove.");
+      } else {
+        console.log("An error occured while removing the file");
+        console.log(e);
+      }
+    }
   };
 
   const renameFile = (oldPath, newPath) => {
-    console.log(`Rename ${oldPath} to ${newPath}`);
+    // console.log(`Rename ${oldPath} to ${newPath}`);
   };
 
   const addToFile = (path, content) => {
-    console.log(`Adding to ${path}`);
-    console.log(`Content : ${content}`);
+    // console.log(`Adding to ${path}`);
+    // console.log(`Content : ${content}`);
   };
 
   const commandFileHandler = await fs.open("./command.txt", "r");
